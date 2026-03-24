@@ -1,0 +1,21 @@
+import java.util.*;
+
+public class ContadorPalavras {
+
+    public static void main(String[] args) {
+
+        String texto = "eu nao aguento mais, a julia nao aguenta mais, a luiza nao aguenta mais" ;
+
+        String[] separadas = texto.toLowerCase().replaceAll("[^a-záéíóúâêôãõç ]", "").split("\\s+");
+
+        Map<String, Integer> frequencia = new LinkedHashMap<>();
+        for (String palavra : separadas) {
+            if (!palavra.isEmpty()) {
+                frequencia.put(palavra, frequencia.getOrDefault(palavra, 0) + 1);
+            }
+        }
+        for (Map.Entry<String, Integer> entrada : frequencia.entrySet()) {
+            System.out.println(entrada.getKey() + " [" + entrada.getValue() + "]");
+        }
+    }
+}
