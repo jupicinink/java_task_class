@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class ContadorPalavras1 {
+
+    public static void main(String[] args) {
+
+        String texto = "a raposa marrom rápida salta sobre o cachorro preguiçoso "
+                     + "a raposa e o cachorro são animais a raposa é rápida "
+                     + "o cachorro é preguiçoso mas o cachorro é leal";
+
+        
+        String[] separadas = texto.toLowerCase().replaceAll("[^a-záéíóúâêôãõç ]", "").split("\\s+");
+
+        // Mapa para contar frequência de cada palavra
+        Map<String, Integer> frequencia = new LinkedHashMap<>();
+        for (String palavra : separadas) {
+            if (!palavra.isEmpty()) {
+                frequencia.put(palavra, frequencia.getOrDefault(palavra, 0) + 1);
+            }
+        }
+
+        List<Map.Entry<String, Integer>> listaAlfabetica = new ArrayList<>(frequencia.entrySet());
+        listaAlfabetica.sort(Comparator.comparing(Map.Entry::getKey));
+
+        for (Map.Entry<String, Integer> entrada : listaAlfabetica) {
+            System.out.println(entrada.getKey() + " [" + entrada.getValue() + "]");
+        }
+    }
+}
