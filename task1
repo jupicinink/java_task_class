@@ -1,0 +1,100 @@
+import java.util.*;
+
+public class WordCounter {
+
+    /**
+     * Exercise 1: Collect words, eliminate duplicates, count frequency
+     * Print in natural order of appearance
+     */
+    public static void printWordsWithFrequency(String text) {
+        Map<String, Integer> wordFrequency = countWords(text);
+        
+        System.out.println("=== Palavras com Frequência (Ordem de Aparição) ===");
+        for (String word : wordFrequency.keySet()) {
+            System.out.println(word + " [" + wordFrequency.get(word) + "]");
+        }
+        System.out.println();
+    }
+
+    /**
+     * Exercise 2: Print words in alphabetical order
+     */
+    public static void printWordsAlphabetically(String text) {
+        Map<String, Integer> wordFrequency = countWords(text);
+        
+        // Sort keys alphabetically
+        List<String> sortedWords = new ArrayList<>(wordFrequency.keySet());
+        Collections.sort(sortedWords);
+        
+        System.out.println("=== Palavras em Ordem Alfabética ===");
+        for (String word : sortedWords) {
+            System.out.println(word + " [" + wordFrequency.get(word) + "]");
+        }
+        System.out.println();
+    }
+
+    /**
+     * Exercise 3: Print words by descending frequency
+     */
+    public static void printWordsByFrequency(String text) {
+        Map<String, Integer> wordFrequency = countWords(text);
+        
+        // Create a list of entries and sort by frequency (descending)
+        List<Map.Entry<String, Integer>> sortedEntries = 
+            new ArrayList<>(wordFrequency.entrySet());
+        
+        // Sort by frequency in descending order
+        sortedEntries.sort((a, b) -> b.getValue().compareTo(a.getValue()));
+        
+        System.out.println("=== Palavras em Ordem Decrescente de Frequência ===");
+        for (Map.Entry<String, Integer> entry : sortedEntries) {
+            System.out.println(entry.getKey() + " [" + entry.getValue() + "]");
+        }
+        System.out.println();
+    }
+
+    /**
+     * Helper method: Count word frequency
+     * Converts to lowercase and removes punctuation
+     */
+    private static Map<String, Integer> countWords(String text) {
+        // Use LinkedHashMap to preserve insertion order for Exercise 1
+        Map<String, Integer> wordFrequency = new LinkedHashMap<>();
+        
+        // Convert to lowercase and split by whitespace
+        String[] words = text.toLowerCase().split("\\s+");
+        
+        for (String word : words) {
+            // Remove punctuation from word
+            word = word.replaceAll("[^a-záéíóúàâãôõç]", "");
+            
+            // Skip empty strings
+            if (!word.isEmpty()) {
+                wordFrequency.put(word, wordFrequency.getOrDefault(word, 0) + 1);
+            }
+        }
+        
+        return wordFrequency;
+    }
+
+    /**
+     * Main method with example usage
+     */
+    public static void main(String[] args) {
+        String texto = "Java é uma linguagem de programação. Java é orientada a objetos. " +
+                       "A linguagem Java é muito popular. Programação em Java é divertida.";
+        
+        System.out.println("Texto original:");
+        System.out.println(texto);
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // Exercise 1
+        printWordsWithFrequency(texto);
+        
+        // Exercise 2
+        printWordsAlphabetically(texto);
+        
+        // Exercise 3
+        printWordsByFrequency(texto);
+    }
+}
