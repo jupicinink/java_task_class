@@ -1,0 +1,59 @@
+import java.util.*;
+
+public class ContadorPalavras {
+
+    public static void main(String[] args) {
+
+        String texto = "a raposa marrom rápida salta sobre o cachorro preguiçoso "
+                     + "a raposa e o cachorro são animais a raposa é rápida "
+                     + "o cachorro é preguiçoso mas o cachorro é leal";
+
+        // Tokenização: quebra o texto em palavras, removendo pontuação
+        String[] tokens = texto.toLowerCase().replaceAll("[^a-záéíóúâêôãõç ]", "").split("\\s+");
+
+        // Mapa para contar frequência de cada palavra
+        Map<String, Integer> frequencia = new LinkedHashMap<>();
+        for (String palavra : tokens) {
+            if (!palavra.isEmpty()) {
+                frequencia.put(palavra, frequencia.getOrDefault(palavra, 0) + 1);
+            }
+        }
+
+        // -------------------------------------------------------
+        // PARTE 1 – Palavras únicas com frequência (ordem de aparição)
+        // -------------------------------------------------------
+        System.out.println("=== PARTE 1: Palavras únicas com frequência ===\n");
+        for (Map.Entry<String, Integer> entrada : frequencia.entrySet()) {
+            System.out.println(entrada.getKey() + " [" + entrada.getValue() + "]");
+        }
+
+        // -------------------------------------------------------
+        // PARTE 2 – Ordenação alfabética
+        // -------------------------------------------------------
+        System.out.println("\n=== PARTE 2: Ordenação Alfabética ===\n");
+
+        List<Map.Entry<String, Integer>> listaAlfabetica = new ArrayList<>(frequencia.entrySet());
+        listaAlfabetica.sort(Comparator.comparing(Map.Entry::getKey));
+
+        for (Map.Entry<String, Integer> entrada : listaAlfabetica) {
+            System.out.println(entrada.getKey() + " [" + entrada.getValue() + "]");
+        }
+
+        // -------------------------------------------------------
+        // PARTE 3 – Ordenação por frequência decrescente
+        // -------------------------------------------------------
+        System.out.println("\n=== PARTE 3: Ordenação por Frequência Decrescente ===\n");
+
+        List<Map.Entry<String, Integer>> listaFrequencia = new ArrayList<>(frequencia.entrySet());
+        // Critério principal: frequência decrescente; critério de desempate: alfabético
+        listaFrequencia.sort(
+            Comparator.<Map.Entry<String, Integer>>comparingInt(Map.Entry::getValue)
+                       .reversed()
+                       .thenComparing(Map.Entry::getKey)
+        );
+
+        for (Map.Entry<String, Integer> entrada : listaFrequencia) {
+            System.out.println(entrada.getKey() + " [" + entrada.getValue() + "]");
+        }
+    }
+}
